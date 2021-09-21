@@ -1,0 +1,25 @@
+{
+  "name": "seviisign",
+  "version": "1.0.0",
+  "description": "Node server to run seviisign html/js assets",
+  "main": "server.js",
+  "repository": "git@github.com:Sevii/seviisign.git",
+  "author": "Nicholas Sledgianowski <nick@sledgeworx.io>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "start": "webpack serve --open"
+  },
+  "dependencies": {
+    "@walletconnect/web3-provider": "^1.6.5",
+    "express": "^4.17.1",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "web3": "^1.5.2",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.1"
+  }
+}
