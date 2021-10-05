@@ -2,6 +2,23 @@
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 import detectEthereumProvider from '@metamask/detect-provider'
+import $ from 'jquery';
+
+export async function signMessage() {
+    let accounts = await web3.eth.getAccounts();
+    let message = $( "#signForm input" ).val();
+    let signature = await web3.eth.personal.sign(message, accounts[0], "test password!");
+
+
+    $( "p#signatureOut" ).change( displayVals );
+}
+
+export async function verifySignature() {
+    let message = $( "select#fverifyingMessage" ).val();
+    let signature = $("select#fsignature").val();
+    let signer = await web3.eth.personal.ecRecover(message, signature);
+}
+
 
 const provider = await detectEthereumProvider()
 
@@ -12,14 +29,12 @@ const provider = await detectEthereumProvider()
 //  Enable session (triggers QR Code modal)
 provider.enable();
 
-//ethereum.enable()
 const web3 = new Web3(provider);
 
 const accounts = await web3.eth.getAccounts();
 console.log("accounts: " + accounts);
 
 const message = "This is a message from sledgeworx.eth holder";
-
 
 // let signature = await web3.eth.personal.sign(message, accounts[0], "test password!");
 // console.log(signature);
@@ -38,3 +53,15 @@ web3.eth.ens.getOwner('sledgeworx.eth').then(function (owner) {
 web3.eth.ens.getAddress('sledgeworx.eth').then(function (address) {
     console.log("address: " + address);
 })
+
+web3.eth.ens.getPubkey('sledgeworx.eth').then(function (key) {
+    console.log(key);
+});
+
+
+$("form#signForm").on('submit', function() {
+  alert('You submitted the form!');
+});
+
+
+
