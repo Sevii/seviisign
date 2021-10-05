@@ -10,13 +10,18 @@ export async function signMessage() {
     let signature = await web3.eth.personal.sign(message, accounts[0], "test password!");
 
 
-    $( "p#signatureOut" ).change( displayVals );
+    $( "p#signatureOut" ).text( " " + signature );
 }
 
 export async function verifySignature() {
-    let message = $( "select#fverifyingMessage" ).val();
-    let signature = $("select#fsignature").val();
+    let message = $( "#fverifyingMessage" ).val();
+    let signature = $("#fsignature").val();
     let signer = await web3.eth.personal.ecRecover(message, signature);
+
+
+
+    $( "p#Output" ).text( "Signed by " + signer );    
+
 }
 
 
@@ -60,8 +65,13 @@ web3.eth.ens.getPubkey('sledgeworx.eth').then(function (key) {
 
 
 $("form#signForm").on('submit', function() {
-  alert('You submitted the form!');
+  signMessage();
+  console.log("signForm clicked");
 });
 
 
+$("form#verifyForm").on('submit', function() {
+  verifySignature();
+  console.log("verifyForm clicked");
+});
 
