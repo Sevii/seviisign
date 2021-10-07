@@ -3,6 +3,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 import detectEthereumProvider from '@metamask/detect-provider'
 import $ from 'jquery';
+import { ethers } from "ethers";
 
 export async function signMessage() {
     let accounts = await web3.eth.getAccounts();
@@ -17,19 +18,20 @@ export async function verifySignature() {
     let message = $( "#fverifyingMessage" ).val();
     let signature = $("#fsignature").val();
     let signer = await web3.eth.personal.ecRecover(message, signature);
+    
+    var name = await ethersProvider.lookupAddress(signer);
 
-
-
-    $( "p#Output" ).text( "Signed by " + signer );    
+    $( "p#Output" ).text( "Signed by " + signer + " " + name );    
 
 }
 
 
-const provider = await detectEthereumProvider()
-
+const provider = await detectEthereumProvider();
 // const provider = new WalletConnectProvider({
 //   infuraId: "89b8ce16e0d047f0a1ea7b23379a695f",
 // });
+
+const ethersProvider = new ethers.providers.Web3Provider(window.ethereum)
 
 //  Enable session (triggers QR Code modal)
 provider.enable();
@@ -62,6 +64,8 @@ web3.eth.ens.getAddress('sledgeworx.eth').then(function (address) {
 web3.eth.ens.getPubkey('sledgeworx.eth').then(function (key) {
     console.log(key);
 });
+
+
 
 
 $("form#signForm").on('submit', function() {
